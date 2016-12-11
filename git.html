@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Contents</h1>
+					<ul>
+						<li>git</li>
+						<li>gerrit</li>
+						<li>repo</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>git基础概念</h2>
+					</section>
+
+					<section>
+						<h2>git三个工作区域</h2>
+						<ul>
+							<li>工作目录（working directory）</li>
+							<li>暂存区（staged area）</li>
+							<li>git仓库（.git）</li>
+						</ul>
+						<img src="imgs/areas.png">
+					</section>
+					<section>
+						<h2>文件状态</h2>
+						<p> <h3>工作目录下文件的状态</h2> </p>
+						<ul>
+							<li>被git跟踪的（tracked）</li>
+							<li>未被git跟踪的（untracked）</li>
+						</ul>
+						<p> <h3>被跟踪的文件的三种状态</h3> </p>
+						<ul>
+							<li>已修改（modified）</li>
+							<li>已暂存（staged）</li>
+							<li>已提交（commited）</li>
+						</ul>
+					</section>
+					<section>
+						<h2>生命周期</h3>
+						<img src="imgs/lifecycle.png">
+						<h3>相关git命令</h3>
+						<pre><code data-trim>
+						$ git status
+						</code> </pre>
+					</section>
+					<section>
+						<h2>git基本工作流程</h3>
+                        <div style="text-align: left; width: 45%; display: inline-block">编辑文件</div>
+                        <div style="text-align: center; width: 45%; display: inline-block" class="fragment" data-fragment-index="1"><code style="background-color: red; color: white; padding: .25em">vim/AS</code></div>
+                        <div style="text-align: center; width: 100%; display: inline-block"></div>
+                        <div style="text-align: left; width: 45%; display: inline-block" class="fragment" data-fragment-index="1">暂存文件</div>
+                        <div style="text-align: center; width: 45%; display: inline-block" class="fragment" data-fragment-index="1"><code style="background-color: black; color: white; border-radius: 5em; padding: .25em" >git add</code></div>
+                        <div style="text-align: center; width: 100%; display: inline-block"></div>
+                        <div style="text-align: left; width: 45%; display: inline-block" class="fragment" data-fragment-index="1">review修改</div>
+                        <div style="text-align: center; width: 45%; display: inline-block"><code class="fragment" data-fragment-index="4" style="background-color: black; color: white; border-radius: 5em; padding: .25em" >git status/git diff</code></div>
+                        <div style="text-align: center; width: 100%; display: inline-block"></div>
+                        <div style="text-align: left; width: 45%; display: inline-block">提交修改(本地)</div>
+                        <div style="text-align: center; width: 45%; display: inline-block" class="fragment" data-fragment-index="1"><code style="background-color: black; color: white; border-radius: 5em; padding: .25em" >git commit</code></div>
+                        <div style="text-align: center; width: 100%; display: inline-block"></div>
+                        <div style="text-align: left; width: 45%; display: inline-block">推送到服务器</div>
+                        <div style="text-align: center; width: 45%; display: inline-block" class="fragment" data-fragment-index="1"><code style="background-color: black; color: white; border-radius: 5em; padding: .25em" >git push</code></div>
+					</section>
+
+					<section>
+						<h3>GIT常用命令介绍</h3>
+						<ul>
+							<li>取出版本：git checkout $commit-id</li>
+							<li>丢弃修改：git checkout -- 文件名</li>
+							<li>添加文件：git add</li>
+							<li>查看状态：git status</li>
+							<li>查看改动：git diff</li>
+							<li>本地提交：git commit</li>
+							<li>推送提交：git push</li>
+							<li>拉取更新：git fetch</li>
+							<li>拉取更新(自动合并）：git pull</li>
+							<li>查看提交记录：git log</li>
+							<li>查看某个提交：git show</li>
+						</ul>
+					</section>
+					<section>
+						<h3>文件暂存</h3>
+						<ul>
+							<li>git add $file: 暂存某改动的文件或为被跟踪的文件</li>
+							<li>git add $dir: 暂存该目录下所有文件（含有被跟踪的文件）</li>
+							<li>git add -u: 暂存该目录下所有改动的文件（不含未跟踪的文件）</li>
+							<li>git reset HEAD $file: 取消暂存，文件状态变为被修改的</li>
+							<li>git checkout -- $file: 将文件所有修改丢弃</li>
+							<li>git rm $file: 将[被跟踪文件]删除 </li>
+						</ul>
+					</section>
+					<section>
+						<h3>查看文件改动</h3>
+						<ul>
+							<li>git diff $file: 查看[已修改]文件的改动</li>
+							<li>git diff: 查看所有[已修改]文件的改动</li>
+							<li>git diff --staged <$file>: 查看[已暂存]文件的改动</li>
+							<li>git diff --staged: 查看所有[已暂存]文件的改动</li>
+							<li>git help diff: 更多高级用法</li>
+						</ul>
+						<p>
+						git diff在命令行下显示文件改动，可以配置使用第三方GUI diff工具.
+						</p>
+					</section>
+
+					<section>
+						<h3>提交改动</h3>
+						<ul>
+							<li>git commit : 在交互窗口中填写提交信息，默认使用nano编辑器</li>
+							<li>git commit -m 'commit message': 直接命令行填写提交信息 </li>
+							<li>git commit --amend: 重写并覆盖最后一次提交</li>
+						</ul>
+						<p>
+							git commit默认使用nano编辑器，可以自动修改，如配置<br>
+							git config --global core.editor vim
+						</p>
+						<p>
+							注意：git commit是将本次修改保存本地的.git目录中，并没有向服务器推送，这是与svn不同的，务必注意。
+						</p>
+					</section>
+
+					<section>
+						<h3>查看历史记录</h3>
+						<ul>
+							<li>git log: 查看提交记录</li>
+							<li>git log $dir/$file: 仅查看某目录或文件的改动</li>
+							<li>git log --author=zhuzhongkai: 查看某人的提交记录</li>
+							<li>git log --stat: 查看提交时文件的改动</li>
+							<li>git log -p : 查看提交时同时给出文件内diff</li>
+							<li>git show $commit-id: 仅仅查看某个提交的全部改动 </li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>git分支</h3>
+						<img width="50%" height="50%" src="imgs/head-to-master.png">
+						<p>
+							git分支的实现非常轻量级，git鼓励使用分支，git分支本质上是个活动指针。
+							<br>
+							上图演示了两个分支:master和testHEAD是git内置的指针，表示当前git仓库所处于的位置。
+						</p>
+					</section>
+					<section>
+						<h3>创建分支</h3>
+
+						<p> 基于当前HEAD指针创建分支 </p>
+						<pre><code data-trim>
+						$ git branch $new-branch-name
+						</code> </pre>
+
+						<p> 从任何位置创建分支，并取出版本 </p>
+						<pre><code data-trim>
+						$ git checkout -b $new-branch $start_point
+						</code> </pre>
+						<p>
+							注意：从某指针位置创建分支并取出版本到工作目录中，此时HEAD会指向新创建的分支。<br>
+							<span class="fragment highlight-red"> 工作目录的文件已被改变！如果之前文件有改动，git会尝试自动合并，若合并失败则无法切换分支 </span>
+						</p>
+					</section>					
+
+					<section>
+						<h3>查看分支</h3>
+						<ul>
+							<li>git branch -a: 列出所有分支，白字为本地分支，红字为远程分支</li>
+							<li>git branch -d: 删除分支</li>
+							<li>git branch -D: 分支</li>
+						</ul>
+					</section>					
+
+				</section>
+
+				<section>
+					<section>
+						<h2>git与远程仓库</h3>
+					</section>
+					<section>
+						<h3>提交代码</h3>
+						<pre><code data-trim>
+							git push $remote $src_branch:$remote_branch
+						</code> </pre>
+						<p>实际执行上述命令时可以省略，如下所示：</p>
+						<pre><code data-trim>
+							git push origin master
+						</code> </pre>
+					</section>					
+
+					<section>
+						<h3>拉取远程服务器代码</h3>
+						<p>将远程仓库拉的同步到本地仓库（.git目录），执行完毕后git branch -a 中列出远程分支会更新到服务器仓库状态</p>
+						<pre><code data-trim>
+							git fetch $remote
+						</code> </pre>
+						<p>再执行利用merge或checkout命令合并本地分支或检出分支，或是在本地执行rebase命令</p>
+						<pre><code data-trim>
+$ git merge origin/master，将当前分支与远程分支合并
+$ git checkout -b dev origin/master，基于服务器分支创建新的dev分支
+						</code> </pre>
+						<p>git还提供了一条便捷指令，等价于git fetch + git merge</p>
+						<pre><code data-trim>
+							git pull
+						</code> </pre>
+					</section>					
+
+					<section>
+						<h3>添加删除远程仓库</h3>
+						<p>如果一开始使用git init创建的本地仓库，现在想要添加远程仓库</p>
+						<pre><code data-trim>
+git remote add origin git@github.com:Lody/VirtualAppDoc.git
+						</code> </pre>
+						<p>origin并无特殊含义，只是惯例，实际可以叫任意名字，其他常用参数如下</p>
+						<pre><code data-trim>
+git remote -v 列出当前添加的远程仓库
+git remote remove $remote 删除名为remote的远程仓库
+						</code> </pre>
+					</section>					
+
+					<section>
+						<h3>强大的rebase命令</h3>
+						<p>rebase命令基本上可以称为git最强大的子命令了，它支持多种功能，首先是分支衍和</p>
+						<pre><code data-trim>
+$ git rebase $branch_name
+						</code> </pre>
+
+						<p>使用rebase修改git历史记录，-i参数弹出交互式命令行窗口</p>
+						<pre><code data-trim>
+$ git rebase -i HEAD~5
+$ git rebase -i HEAD~$commit_id
+						</code> </pre>
+					</section>
+
+					<section>
+						<h3>其他常用命令</h3>
+						<pre><code data-trim>
+$ git cherry-pick $commit_id: 单独合并某个commit
+$ git revert $commit_id: 逆转某个commit
+$ git format-patch: 生成patch
+$ git am xxx.patch: 应用patch文件
+$ git diff $commit_id1..$commit_id2 > 1.diff 生成两个commit的差异文件
+$ git apply xxx.diff : 应用diff文件
+						</code> </pre>
+					</section>
+
+					<section>
+						<h3>git配置</h3>
+						<p>git按照以下顺序依次加载配置，可直接编辑这些文件，或git config修改</p>
+						<ol>
+							<li>/etc/gitconfig: 使用 git config --system 修改</li>
+							<li>~/.gitconfig:  使用git config --global 修改</li>
+							<li>.git/config: 直接使用git config修改</li>
+						</ol>
+
+						<pre><code data-trim>
+$ git config --global user.name zhuzhongkai
+$ git config --global user.email zhuzhongkai@droi.com
+$ git config --global core.editor vim
+$ git config --global color.ui auto
+						</code> </pre>
+
+						<p> git还可以配置别名 </p>
+						<pre><code data-trim>
+git config --global alias.co checkout
+git config --global alias.st status
+						</code> </pre>
+					</section>
+				</section>
+
+				<section>
+					<h3>gerrit简介</h3>
+					<p></p>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+				progress: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
